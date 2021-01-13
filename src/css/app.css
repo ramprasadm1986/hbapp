@@ -1,0 +1,146 @@
+/* iOS Cordova Tweak */
+@import "fontslibrary.css";
+:root {
+  --f7-font-family:'Lato', sans-serif;
+  --f7-theme-color: #007aff;
+  --f7-theme-color-rgb: 0, 122, 255;
+  --f7-theme-color-shade: #0066d6;
+  --f7-theme-color-tint: #298fff;
+  --f7-safe-area-left: 0px;
+  --f7-safe-area-right: 0px;
+  --f7-safe-area-top: 0px;
+  --f7-safe-area-bottom: 0px;
+  --f7-safe-area-outer-left: 0px;
+  --f7-safe-area-outer-right: 0px;
+  --f7-device-pixel-ratio: 1;
+  --f7-page-bg-color:#fff;
+}
+
+.device-cordova.device-ios {
+  height: 100vh;
+}
+
+/* Your app custom styles here */
+
+.title_h2{
+font-size: 20px;
+font-weight: 600;
+color: #E83867;
+margin: 0px;
+padding: 0px;
+line-height: 20px;
+height: 30px;
+justify-content: center;
+display: flex;
+}
+
+.home_card_title{
+    
+    background-color: #E83867;
+font-weight: bold;
+color: #390909;
+text-transform: uppercase;
+display:block;
+white-space:nowrap;
+text-overflow: ellipsis;
+overflow:hidden;
+}
+.topdeals{
+    margin:0px;
+    width:100%;
+}
+
+.topdeals .card-content{
+    height:170px;
+}
+.topdeals .card-content img{
+width: 100%;
+height: 150px;
+display:block;
+}
+.topdeals .home_card_price{
+    background-color: #E83867;
+height: 20px;
+font-size: 12px;
+line-height: 20px;
+display:block;
+white-space:nowrap;
+font-weight: bold;
+color: #390909;
+text-transform: uppercase;
+justify-content: center;
+align-content: center;
+white-space: normal;
+text-align: center;
+
+}
+.topdeals .home_card_title{
+    background-color:#fff;
+    overflow:hidden;
+
+font-size: 12px;
+line-height: 20px;
+display:block;
+white-space:nowrap;
+text-overflow: ellipsis;
+}
+
+.topdeals .home_card_title p,.topdeals .home_card_price p{
+    margin:0px;
+}
+
+
+.catalogitem{
+   margin:0px;
+}
+.catalogitemLink{
+    width:100%;
+    height:100%;
+    display:block;
+}
+.catalogitemLink{
+    color: #390909;
+}
+.catalogitem .card-content{
+   
+    padding:5px;
+}
+.catalogitem .card-content img{
+width: 100%;
+height: 150px;
+display:block;
+}
+.catalogitem .catalog_card_price{
+    background-color: #E83867;
+height: 20px;
+font-size: 12px;
+line-height: 20px;
+display:block;
+white-space:nowrap;
+font-weight: bold;
+color: #390909;
+text-transform: uppercase;
+justify-content: center;
+align-content: center;
+white-space: normal;
+text-align: center;
+}
+
+.catalogitem .catalog_card_title{
+    background-color:#fff;
+
+    height: 20px;
+font-size: 12px;
+line-height: 20px;
+display:block;
+font-weight: bold;
+
+}
+
+.catalogitem .catalog_card_title p,.topdeals .catalog_card_price p{
+    margin:0px;
+}
+
+.card_img{
+    border-radius:var(--f7-card-border-radius) var(--f7-card-border-radius) 0 0;
+}

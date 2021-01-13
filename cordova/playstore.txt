@@ -1,0 +1,10 @@
+cordova build
+
+cordova build --release android
+
+keytool -genkey -v -keystore hotbargains.keystore -alias hotbargains -keyalg RSA -keysize 2048 -validity 10000
+keytool -importkeystore -srckeystore hotbargains.keystore -destkeystore hotbargains.keystore -deststoretype pkcs12
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore hotbargains.keystore platforms\android\app\build\outputs\apk\release\app-release-unsigned.apk hotbargains
+
+Z:\Andriod\SDK\build-tools\29.0.3\zipalign -v 4 platforms\android\app\build\outputs\apk\release\app-release-unsigned.apk platforms\android\app\build\outputs\apk\release\hotbargains.apk

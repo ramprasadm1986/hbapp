@@ -1,0 +1,69 @@
+.swiper-container{
+   
+}
+
+.swiper-slide {
+  background: #fff;
+  text-align: center;
+  font-size: 18px;
+  line-height: 150px;
+  box-sizing: border-box; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100%;
+     
+}
+.swiper-slide img{
+    
+    width:100%;
+    
+}
+
+.category_swiper {
+
+   
+}
+
+.category_swiper .swiper-wrapper{
+    padding:5px;
+}
+
+.category_swiper .swiper-slide{
+
+}
+
+.category_swiper .category_icon {
+border-radius: 50px;
+display: flex;
+font-size: 15px;
+line-height: 15px;
+width: 50px !important;
+height: 50px;
+border: 1px solid #ccc;
+color: #8fabff;
+font-weight: bold;
+box-shadow: 0 0 5px 1px #8fabff;
+background:#fff;
+background-position: center;
+background-size: cover;
+}
+
+.category_swiper .category_text{
+display: block;
+float: left;
+font-size: 12px;
+line-height: 20px;
+height: 20px;
+width:100%;
+justify-content: center;
+align-content: center;
+display:block;
+white-space:nowrap;
+text-overflow: ellipsis;
+overflow:hidden;
+}
+
+.topdeals_swiper .swiper-slide{
+     border-radius:var(--f7-card-border-radius);
+}
