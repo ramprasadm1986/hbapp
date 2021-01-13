@@ -83,13 +83,13 @@ return (
         <Navbar title="Shipping" backLink="Back" />
         {/* Page content */}
         
-        <BlockHeader>Select Shipping Method</BlockHeader>
+        <BlockHeader className="shipingheader">Select Shipping Method</BlockHeader>
         <Block>
             <List form id="shipping-form">
             {ShippingMethods.length && (<>
                         {ShippingMethods.map((item, index) => (
                         
-                           <ListItem key={index}
+                           <ListItem key={index} className="card shadow nom"
                             radio
                             radioIcon="start"
                             title={item.name}
@@ -104,49 +104,52 @@ return (
             </List>
                 
         </Block>
-        <Card className="catalogitem">
+        <Block>
+        <Card className="catalogitem shadow">
             <CardContent padding={false}>
-                <Row>
+                <Block>
+                <Row className="borderbtm">
                     <Col width="50">
-                        <BlockTitle className="title_h2 text-align-center">
+                        <BlockTitle className="cartitle_h2 text-align-left">
                             SubTotal
                         </BlockTitle>
                     </Col>
                     <Col width="50">
-                        <BlockTitle className="title_h2 text-align-center">
+                        <BlockTitle className="cartitle_h2 text-align-right">
                             {fixRadix(cartSubTotal)}
                         </BlockTitle>
                     </Col>
                 </Row>
-                <Row>
+                <Row className="borderbtm">
                     <Col width="50">
-                        <BlockTitle className="title_h2 text-align-center">
+                        <BlockTitle className="cartitle_h2 text-align-left">
                             Shipping
                         </BlockTitle>
                     </Col>
                     <Col width="50">
-                        <BlockTitle className="title_h2 text-align-center">
+                        <BlockTitle className="cartitle_h2 text-align-right">
                             {fixRadix(cartShippingAmount)}
                         </BlockTitle>
                     </Col>
                 </Row>
                 <Row>
                     <Col width="50">
-                        <BlockTitle className="title_h2 text-align-center">
+                        <BlockTitle className="cartitle_h2 text-align-left">
                             Total
                         </BlockTitle>
                     </Col>
                     <Col width="50">
-                        <BlockTitle className="title_h2 text-align-center">
+                        <BlockTitle className="cartitle_h2 text-align-right">
                             {fixRadix(cartTotal)}
                         </BlockTitle>
                     </Col>
                 </Row>
+                </Block>
             </CardContent>
             <CardFooter>
                 <Block
-                    style={{ width: "100%" }}
-                    className="float-left"
+                    style={{ width: "100%",paddingRight:"0px"}}
+                    
                 >
                     <Button
                         className="float-right"
@@ -158,6 +161,7 @@ return (
                 </Block>
             </CardFooter>
         </Card>
+        </Block>
         
     </Page>
 );

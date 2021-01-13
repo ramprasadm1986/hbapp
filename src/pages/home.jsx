@@ -65,18 +65,18 @@ const HomePage = (props) => {
                 
               {categories.length && (
                 <List >
-                    <ul>
+                    <ul className="sidenav">
                     {categories.map((item,index) => (<>
                     
-                        <ListItem key={item.category_id} title={item.label}  link={`/catalog/${item.category_id}/${item.label}`} tabLink="#view-catalog" view="#view-catalog"  panelClose />
+                        <ListItem key={item.category_id} title={item.label}   link={`/catalog/${item.category_id}/${item.label}`} tabLink="#view-catalog" view="#view-catalog"  panelClose />
                             {item.items.length > 0 && (<>
-                                <List >
+                                <List className="subsidenav" >
                                     <ul>
                                     {item.items.map((item1,index1)=>(<>
                                     
                                         <ListItem key={item1.category_id} title={item1.label}  link={`/catalog/${item1.category_id}/${item1.label}`} tabLink="#view-catalog" view="#view-catalog"  panelClose />
                                         {item1.items.length > 0 && (<>
-                                            <List >
+                                            <List className="subsubsidenav" >
                                             <ul>
                                                 {item1.items.map((item2,index2)=>(<>
                                                     <ListItem key={item2.category_id} title={item2.label}  link={`/catalog/${item2.category_id}/${item2.label}`} tabLink="#view-catalog" view="#view-catalog"  panelClose></ListItem>                               
@@ -252,14 +252,14 @@ const HomePage = (props) => {
                 loop >
           {topdeals.map((item,index) => (
                 
-                <SwiperSlide key={item.id}  >
+                <SwiperSlide key={item.id} className="shadow mar">
                 <Link className="catalogitemLink" href={`/product/${item.id}/`} tabLink="#view-catalog" view="#view-catalog" animate={false} ignoreCache={true}>
-                    <Card className="topdeals">            
+                    <Card className="topdeals ">            
                         <CardContent padding={false}>
                             <img className="card_img lazy lazy-fade-in" src={item.image} width="100%"  />
                             <div className="home_card_price">{ ReactHtmlParser(item.price) }</div>
                         </CardContent>
-                        <CardFooter className="home_card_title">
+                        <CardFooter className="home_card_title black" >
                             { ReactHtmlParser(item.name) }
                         </CardFooter>
                     </Card>

@@ -70,8 +70,8 @@ const CheckoutAddressPage = (props) => {
     return (
         <Page name="checkoutaddress">
             <Navbar title="Delivery Address" backLink="Back" />
-            <Block>
-                <List form id="address-form">
+         
+                <List form id="address-form" className="nobrd">
                     <ListInput
                         type="text"
                         name="name"
@@ -142,7 +142,7 @@ const CheckoutAddressPage = (props) => {
                         required
                       ></ListInput>
                 </List>
-            </Block>
+         
             <Block style={{ width: "100%" }} className="float-left">
                 <Button
                     className="float-right"

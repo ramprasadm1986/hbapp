@@ -1,5 +1,8 @@
 import React from 'react';
-import { Page, Navbar,NavLeft,NavTitle,NavRight,Link, BlockTitle, Block,Button,Badge,Icon,Swiper,SwiperSlide, useStore } from 'framework7-react';
+import { Page, Navbar,NavLeft,NavTitle,NavRight,Link, BlockTitle, Block,Button,Badge,Icon,Swiper,SwiperSlide,Row,Col,Card,
+  CardHeader,
+  CardContent,
+  CardFooter, useStore } from 'framework7-react';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 import store from '../js/store'
 const ProductPage = (props) => {
@@ -69,31 +72,40 @@ const ProductPage = (props) => {
         </Swiper>
         )}
         
-       <Block strong>
+      
+<Card padding={false} className="shadow">
+      <CardHeader>
       { ReactHtmlParser(product.name) }
-      </Block>
-      <Block strong>
-      { ReactHtmlParser(product.sku) }
-      </Block>
-      <Block strong>
-      { ReactHtmlParser(productHelper.price) }
-      </Block>
-      
-      <Block strong>
-      
-            <Button fill onClick={() => addProduct(product,productHelper)}>Add To Cart</Button>
-           
-      </Block>
-      
-      
-      <Block strong>
+      </CardHeader>
+      <CardContent>
+       <p>SKU : { ReactHtmlParser(product.sku) }</p>
+      <p> Price : { ReactHtmlParser(productHelper.price) } </p>
+      </CardContent>
+      <CardFooter>
+      <Button fill onClick={() => addProduct(product,productHelper)}>Add To Cart</Button>
+      </CardFooter>
+</Card>
+  
+<Card padding={false} className="shadow">
+      <CardContent>
       { ReactHtmlParser(product.short_description) }
-      </Block>
-      
-      <Block strong>
+      </CardContent>
+
+</Card>      
+{product.description!="" &&(<>
+
+
+
+
+   
+<Card padding={false} className="shadow">
+      <CardContent>
       { ReactHtmlParser(product.description) }
-       
-      </Block>
+      </CardContent>
+
+</Card>
+ </>)}        
+ 
     </Page>
   );
 }

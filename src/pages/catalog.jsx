@@ -98,7 +98,7 @@ const CatalogPage = (props) => {
      <List className="search-list searchbar-found">
      {catalogItems.map((item, index) => (
      
-     <ListItem key={index}>
+     <ListItem key={index} className="pl">
         <Link className="catalogitemLink" href={`/product/${item.id}/`} animate={false} ignoreCache={true}>
      
             <Card className="catalogitem">            
@@ -106,7 +106,7 @@ const CatalogPage = (props) => {
                     <Row>
                         <Col width="50">
                             
-                            <img className="lazy lazy-fade-in"  src={item.image} width="100%"  />
+                            <img className="lazy lazy-fade-in rd"  src={item.image} width="100%"  />
                           
                         </Col>
                         <Col width="50">

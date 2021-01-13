@@ -43,7 +43,7 @@ height: 50px;
 border: 1px solid #ccc;
 color: #8fabff;
 font-weight: bold;
-box-shadow: 0 0 5px 1px #8fabff;
+    box-shadow: 0 0 5px 2px #08080830;
 background:#fff;
 background-position: center;
 background-size: cover;

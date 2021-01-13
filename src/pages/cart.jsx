@@ -96,8 +96,8 @@ const CartPage = (props) => {
 
 			{cartCount && (
 				<>
-					<Block>
-						<List accordionList inset>
+				 
+						<List accordionList inset className="shadow">
 							{cartItems.map((item, index) => (
 								<ListItem
 									key={index}
@@ -132,10 +132,10 @@ const CartPage = (props) => {
 														</div>
 													</Col>
 												</Row>
-											</CardContent>
-											<CardFooter className="catalog_card_price">
+												<div className="catalog_card_price cartitemprice">
 												<Row>
 													<Col>
+													<div className="cartqwt">
 														{ReactHtmlParser(
 															item.qty
 														)}
@@ -145,16 +145,18 @@ const CartPage = (props) => {
 														)}
 														<span> = </span>
 														{fixRadix(item.total)}
+														</div>
 													</Col>
 													<Col>
+													 <div className="cartstepper">
 														<Stepper
 															inputReadonly
-															fill
+															raised small round fill 
 															value={item.qty}
 															min={1}
 															max={10}
 															step={1}
-															round
+															style={{backgroundColor:"#000"}}
 															color="black"
 															onStepperMinusClick={() =>
 																updateProduct(
@@ -169,15 +171,18 @@ const CartPage = (props) => {
 																)
 															}
 														/>
+														 </div>
 													</Col>
 												</Row>
-											</CardFooter>
+											</div>
+											</CardContent>
+											
 										</Card>
 									</AccordionContent>
 								</ListItem>
 							))}
 						</List>
-					</Block>
+			 
 					<Card className="catalogitem">
 						<CardContent padding={false}>
 							<Row>
