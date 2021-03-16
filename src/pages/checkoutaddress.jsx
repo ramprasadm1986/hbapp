@@ -1,19 +1,28 @@
 import React,{useState, useEffect } from 'react';
 import { Page,View, Navbar ,List,ListInput,ListButton,Button,Block,BlockTitle,BlockHeader,BlockFooter,useStore } from 'framework7-react';
 import store from '../js/store';
+import HBApi from '../components/api';
 
 const CheckoutAddressPage = (props) => {
     const { f7route, f7router,from,next } = props;
+    var Api= new HBApi();
+    const user = useStore("user");
+    const guestUser = useStore("guestUser");
     const cartName = useStore("cartName");
     const cartEmail = useStore("cartEmail");
-    const Countries = useStore("countries");
+    const Countries = useStore("allowedCountries");
     const CountryStates = useStore("countryStates");
+    const cartAdd1 = useStore("cartAdd1");
+    const cartAdd2 = useStore("cartAdd2");
+    const cartLandmark = useStore("cartLandmark");
     const cartCountry = useStore("cartCountry");
     const cartState = useStore("cartState");
     const cartCity = useStore("cartCity"); 
     const cartZipcode = useStore("cartZipcode");
     const cartPhone = useStore("cartPhone");
-    
+    const cartItems = useStore("cartItems");
+    const cartIdentifire = useStore("cartIdentifire");
+ 
     
     const setName=(nameSelected)=>{
         store.dispatch('setCartName',nameSelected);
@@ -21,8 +30,18 @@ const CheckoutAddressPage = (props) => {
     const setEmail=(emailSelected)=>{
         store.dispatch('setCartEmail',emailSelected);
     }
-    const setCountry=(countrySelected)=>{       
+     const setCountry=(countrySelected)=>{       
         store.dispatch('setCartCountry',countrySelected);
+    }
+    
+     const setCartAdd1=(add1)=>{       
+        store.dispatch('setCartAdd1',add1);
+    }
+    const setCartAdd2=(add2)=>{       
+        store.dispatch('setCartAdd2',add2);
+    }
+    const setCartLandmark=(landmark)=>{       
+        store.dispatch('setCartLandmark',landmark);
     }
     const setState=(stateSelected)=>{
         store.dispatch('setCartState',stateSelected);
@@ -36,6 +55,8 @@ const CheckoutAddressPage = (props) => {
     const setPhone=(phoneSelected)=>{
         store.dispatch('setCartPhone',phoneSelected);
     }
+    
+   
     
     
     var toastCenter;
@@ -62,9 +83,30 @@ const CheckoutAddressPage = (props) => {
         toastCenter.open();
     };
     const PprceedShipping= async ()=>{
-        if (f7router.app.input.validateInputs("#address-form")){  
-        
+        if (f7router.app.input.validateInputs("#address-form")){
+            
+            var user_id=false;
+            if(user){
+            user_id=user.id;
+            }
+            f7router.app.preloader.show();
+            
+            
+   
+            var result= await Api.Post('carts/setcart',{ "cartName":cartName,"cartEmail":cartEmail,"cartAdd1":cartAdd1,"cartAdd2":cartAdd2,"cartLandmark":cartLandmark,"cartCountry":cartCountry,"cartState":cartState,"cartCity":cartCity,"cartZipcode":cartZipcode,"cartPhone":cartPhone,"cartItems":cartItems,"cartIdentifire":cartIdentifire,"user_id":user_id,"guestUser":guestUser});
+            
+            
+            if (result.success){
+            store.dispatch('setCartTaxAmount',result.data.tax);
+            store.dispatch('setCartIdentifire',result.data.CartIdentifire);
+            f7router.app.preloader.hide();
             f7router.navigate("/shipping/");
+            }
+            else{
+            f7router.app.preloader.hide();
+            showToastCenter(result.data.message);
+            }
+            
         }
     }
     return (
@@ -86,6 +128,33 @@ const CheckoutAddressPage = (props) => {
                         value={cartEmail}
                         onInput={(e) => setEmail(e.target.value)}
                       required validate></ListInput>
+                    <ListInput
+                        label="Address Line 1"
+                        type="text"
+                        name="add1"
+                        placeholder="Address Line 1"
+                        value={cartAdd1}
+                        onInput={(e) => setCartAdd1(e.target.value)}
+                        required
+                      ></ListInput>
+                    <ListInput
+                        label="Address Line 2"
+                        type="text"
+                        name="add2"
+                        placeholder="Address Line 2"
+                        value={cartAdd2}
+                        onInput={(e) => setCartAdd2(e.target.value)}
+                        
+                      ></ListInput>
+                    <ListInput
+                        label="Landmark"
+                        type="text"
+                        name="landmark"
+                        placeholder="Landmark"
+                        value={cartLandmark}
+                        onInput={(e) => setCartLandmark(e.target.value)}
+                        
+                      ></ListInput>
                     <ListInput label="Country"
                         type="select"
                         name="country"

@@ -36,7 +36,9 @@ import '../css/swiper.css';
 
 const HomePage = (props) => {
    const {f7route, f7router } = props;
+   const user = useStore("user");
    const categories = useStore('categories');
+   
    
    const homebanners = useStore('homebanners');
    
@@ -45,9 +47,41 @@ const HomePage = (props) => {
    const topcategories = useStore('topcategories');
    
    const ads = useStore('ads');
+  
+   
    const topdeals = useStore('topdeals');
    const attCategories = useStore('attCategories');
    
+   const logProceed = () => {
+		if (user) {
+            store.dispatch('logout');
+            f7router.app.tab.show("#view-home");
+			
+		} else {
+			f7router.app.views.['settings'].router.navigate("/login/", {
+				props: { from: "menu", next: "settings" },
+                history:false,
+                browserHistory:false
+			});
+			
+            
+		}
+	};
+    
+    const MenuProceed = (link) => {
+        if (user) {
+          f7router.app.views.['settings'].router.navigate("/"+link+"/");
+			
+		}
+        else {
+            f7router.app.views.['settings'].router.navigate("/login/", {
+				props: { from: "menu", next:link },
+                history:false,
+                browserHistory:false
+			});
+        }
+		
+	};
  
     
 
@@ -72,14 +106,14 @@ const HomePage = (props) => {
                             {item.items.length > 0 && (<>
                                 <List className="subsidenav" >
                                     <ul>
-                                    {item.items.map((item1,index1)=>(<>
+                                    {item.items.map((itema,index1)=>(<>
                                     
-                                        <ListItem key={item1.category_id} title={item1.label}  link={`/catalog/${item1.category_id}/${item1.label}`} tabLink="#view-catalog" view="#view-catalog"  panelClose />
-                                        {item1.items.length > 0 && (<>
+                                        <ListItem key={itema.category_id} title={itema.label}  link={`/catalog/${itema.category_id}/${itema.label}`} tabLink="#view-catalog" view="#view-catalog"  panelClose />
+                                        {itema.items.length > 0 && (<>
                                             <List className="subsubsidenav" >
                                             <ul>
-                                                {item1.items.map((item2,index2)=>(<>
-                                                    <ListItem key={item2.category_id} title={item2.label}  link={`/catalog/${item2.category_id}/${item2.label}`} tabLink="#view-catalog" view="#view-catalog"  panelClose></ListItem>                               
+                                                {itema.items.map((itemb,index2)=>(<>
+                                                    <ListItem key={itemb.category_id} title={itemb.label}  link={`/catalog/${itemb.category_id}/${itemb.label}`} tabLink="#view-catalog" view="#view-catalog"  panelClose></ListItem>                               
                                                 </>))}
                                                 </ul>
                                             </List>    
@@ -105,8 +139,14 @@ const HomePage = (props) => {
         <Panel right cover themeDark>
           <View>
             <Page>
-              <Navbar title="Right Panel"/>
-              <Block>Right panel content goes here</Block>
+              <Navbar title="Account"/>
+              <List>
+                    <ul className="sidenav">
+                        <ListItem title="My Orders" link="#" tabLink="#view-settings" view="#view-settings" onClick={() => MenuProceed('orders')}  panelClose />
+                                     
+                        <ListItem title={user?"Logout":"Login"} tabLink="#view-settings" view="#view-settings" link="#"   onClick={logProceed} panelClose />
+                    </ul>
+              </List>
             </Page>
           </View>
         </Panel>
@@ -218,15 +258,17 @@ const HomePage = (props) => {
     <BlockTitle className="title_h2 text-align-center">Shop from Top Categories</BlockTitle>
       <Row noGap>
         {topcategories.map((item,index) => (
-        <Col key={item.category_id} width="50">
-            <Card>            
-                <CardContent padding={false}>
-                    <img className="card_img lazy lazy-fade-in"  src={item.image} width="100%"  />
-                </CardContent>
-                <CardFooter className="home_card_title">
-                    {item.name}
-                </CardFooter>
-            </Card>
+        <Col key={item.id} width="50">
+            <Link className="catalogitemLink" href={`/catalog/${item.id}/${item.name}`} tabLink="#view-catalog" view="#view-catalog" animate={false} ignoreCache={true}>
+                <Card>            
+                    <CardContent padding={false}>
+                        <img className="card_img lazy lazy-fade-in"  src={item.image} width="100%"  />
+                    </CardContent>
+                    <CardFooter className="home_card_title">
+                        {item.name}
+                    </CardFooter>
+                </Card>
+            </Link>
         </Col>
          ))}
       </Row>   
@@ -277,14 +319,15 @@ const HomePage = (props) => {
     <Block>
         <Row noGap>
         <Col width="100">
-         <img className="lazy lazy-fade-in"  src={ads.ad02} width="100%"  />
+         <Link href={ads.ad02L}  tabLink="#view-catalog" view="#view-catalog" animate={false} ignoreCache={true}> <img className="lazy lazy-fade-in"  src={ads.ad02} width="100%"  /></Link>
         </Col>
         </Row>
     </Block>
     <Block>
         <Row noGap>
         <Col width="100">
-         <img className="lazy lazy-fade-in"  src={ads.ad03} width="100%"  />
+         <Link href={ads.ad03L}  tabLink="#view-catalog" view="#view-catalog" animate={false} ignoreCache={true}> <img className="lazy lazy-fade-in"  src={ads.ad03} width="100%"  /></Link>
+        
         </Col>
         </Row>
     </Block>
@@ -293,7 +336,8 @@ const HomePage = (props) => {
     <BlockTitle className="title_h2 text-align-center">Your Attention</BlockTitle>
       <Row noGap>
         {attCategories.map((item,index) => (
-        <Col key={item.category_id} width="33">
+        <Col key={item.id} width="33">
+            <Link className="catalogitemLink" href={`/catalog/${item.id}/${item.name}`} tabLink="#view-catalog" view="#view-catalog" animate={false} ignoreCache={true}>
             <Card>            
                 <CardContent padding={false}>
                     <img className="card_img lazy lazy-fade-in"  src={item.image} width="100%"  />
@@ -302,6 +346,7 @@ const HomePage = (props) => {
                     {item.name}
                 </CardFooter>
             </Card>
+            </Link>
         </Col>
          ))}
       </Row>   

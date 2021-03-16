@@ -40,6 +40,7 @@ const app = () => {
      useEffect(() => {
        
         store.dispatch('getHomeData');
+        store.dispatch('setAllowedCountries');
         
       }, []);
    

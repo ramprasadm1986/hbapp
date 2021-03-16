@@ -22,9 +22,14 @@ const store = createStore({
     cartItems:localStorage.getItem('cartItems')?JSON.parse(localStorage.getItem('cartItems')):[],
     cartCount:localStorage.getItem('cartCount')?parseInt(localStorage.getItem('cartCount'),10):0,
     cartSubTotal:localStorage.getItem('cartSubTotal')?parseFloat(localStorage.getItem('cartSubTotal')).toFixed(2):0,
-    Countries:Countries,
+    AllCountries:Countries,
+    AllowedCountries:[],
+    CountryFilter:localStorage.getItem('CountryFilter')?JSON.parse(localStorage.getItem('CountryFilter')):[],
     CountryStates:CountryStates,
     FilteredCountryStates:[],
+    cartAdd1:"",
+    cartAdd2:"",
+    cartLandmark:"",
     cartCountry:"",
     cartState:"",
     cartCity:"",
@@ -33,8 +38,11 @@ const store = createStore({
     cartName:localStorage.getItem('cartName')?localStorage.getItem('cartName'):"",
     cartEmail:localStorage.getItem('cartEmail')?localStorage.getItem('cartEmail'):"",
     cartShippingAmount:0,
+    cartTaxAmount:0,
     cartShippingMethod:"",
-    cartTotal:0
+    cartPaymentMethod:"",
+    cartTotal:0,
+    cartIdentifire:localStorage.getItem('cartIdentifire')?localStorage.getItem('cartIdentifire'):"",
   },
   getters: {
     cordovaApp({ state }) {
@@ -53,7 +61,11 @@ const store = createStore({
       return state.currency;
     },
     countries({ state }) {
-      return state.Countries;
+      return state.AllCountries;
+    },
+    allowedCountries({ state }){
+        
+        return state.AllowedCountries;
     },
     countryStates({ state }) {
       return state.FilteredCountryStates;
@@ -88,6 +100,15 @@ const store = createStore({
     cartSubTotal({ state }) {
       return state.cartSubTotal;
     },
+    cartAdd1({ state }) {
+      return state.cartAdd1;
+    },
+    cartAdd2({ state }) {
+      return state.cartAdd2;
+    },
+    cartLandmark({ state }) {
+      return state.cartLandmark;
+    },
     cartCountry({ state }) {
       return state.cartCountry;
     },
@@ -112,19 +133,42 @@ const store = createStore({
     cartShippingAmount({ state }) {
       return state.cartShippingAmount;
     },
+    cartTaxAmount({ state }) {
+      return state.cartTaxAmount;
+    },
     cartShippingMethod({ state }) {
       return state.cartShippingMethod;
     },
+    cartPaymentMethod({ state }) {
+      return state.cartPaymentMethod;
+    },
     cartTotal({ state }) {
       return state.cartTotal;
+    },
+    cartIdentifire({ state }) {
+      return state.cartIdentifire;
     },
     
 
   },
   actions: {
+    logout({state}){
+       
+       state.user= false;
+       state.cartName="";
+       state.cartEmail="";
+       localStorage.removeItem('user');
+       localStorage.removeItem('cartName');
+       localStorage.removeItem("cartEmail");
+       state.guestUser=true;       
+       localStorage.setItem('guestUser',state.guestUser);
+    },
     resetCatalog({state}){
         state.FilteredCountryStates=[];
         state.FilteredCountryStates = [...state.FilteredCountryStates];
+        state.cartAdd1="";
+        state.cartAdd2="";
+        state.cartLandmark="";
         state.cartCountry="";
         state.cartState="";
         state.cartCity="";
@@ -133,7 +177,9 @@ const store = createStore({
         state.cartName=localStorage.getItem('cartName')?localStorage.getItem('cartName'):"",
         state.cartEmail=localStorage.getItem('cartEmail')?localStorage.getItem('cartEmail'):"",
         state.cartShippingAmount=0,
+        state.cartTaxAmount=0,
         state.cartShippingMethod="",
+        state.cartPaymentMethod="",
         state.cartTotal=0;
         state.cartItems=[];
         state.cartItems = [...state.cartItems];
@@ -142,6 +188,20 @@ const store = createStore({
         localStorage.removeItem('cartItems');
         localStorage.removeItem('cartCount');
         localStorage.removeItem('cartSubTotal');
+        localStorage.removeItem('cartIdentifire');
+    },
+    setAllowedCountries({state}){
+      state.AllowedCountries=state.AllCountries.filter(item => state.CountryFilter.includes(item.iso2));
+      state.AllowedCountries = [...state.AllowedCountries];
+    },
+    setCartAdd1({ state },data) {
+      state.cartAdd1=data;
+    },
+    setCartAdd2({ state },data) {
+      state.cartAdd2=data;
+    },
+    setCartLandmark({ state },data) {
+      state.cartLandmark=data;
     },
     setCartCountry({ state },data) {
       state.cartCountry=data;
@@ -168,7 +228,12 @@ const store = createStore({
       state.cartEmail=data;
       
     },
-    
+    setCartTaxAmount({ state },data) {
+         state.cartTaxAmount=data;
+    },
+    setCartPaymentMethod({ state },data) {
+         state.cartPaymentMethod=data;
+    },
     setCartShippingMethod({ state },data) {
       console.log(data);
       var ShippingMethod=state.ShippingMethods.filter(item => item.method === data);
@@ -182,20 +247,25 @@ const store = createStore({
           console.log(shipping);
           console.log(ShippingMethod[0].price);
           console.log(ShippingMethod[0].snd_price);
-          item.shipping=shipping;
+          
           total_shipping=total_shipping+shipping;
   
         });
          
-        state.cartItems = [...state.cartItems]; 
         
-        localStorage.setItem('cartItems',JSON.stringify(state.cartItems));  
           
       
       state.cartShippingAmount=total_shipping;
       state.cartTotal=((total_shipping-0)+(state.cartSubTotal-0));
+      
     },
-    
+    calculateCartTotal({state}){
+         state.cartTotal= (state.cartShippingAmount-0)+(state.cartTaxAmount-0)+(state.cartSubTotal-0);
+    },
+    setCartIdentifire({ state },data) {
+      state.cartIdentifire=data;
+      localStorage.setItem('cartIdentifire',data);
+    },
     setUser({ state }, data) {
       
        state.user= data;
@@ -230,6 +300,7 @@ const store = createStore({
            state.cartCount = state.cartCount+1;
       }
       state.cartShippingAmount=0;
+      state.cartTaxAmount=0;
       state.cartShippingMethod="";
       state.cartTotal=0;
       var cartSubtotal = state.cartItems.reduce((subTotal, cartItem) => subTotal + cartItem.total, 0);
@@ -256,6 +327,7 @@ const store = createStore({
         state.cartItems = [...state.cartItems];     
       }
       state.cartShippingAmount=0;
+      state.cartTaxAmount=0;
       state.cartShippingMethod="";
       state.cartTotal=0;
       var cartSubtotal = state.cartItems.reduce((subTotal, cartItem) => subTotal + cartItem.total, 0);
@@ -296,6 +368,10 @@ const store = createStore({
                 state.ads=result.data.ads;
                 localStorage.setItem('ads',JSON.stringify(result.data.ads));
                 
+                state.CountryFilter=result.data.CountryFilter;
+                localStorage.setItem('CountryFilter',JSON.stringify(result.data.CountryFilter));
+                
+                
                 state.topdeals=result.data.bestsellers;
                 localStorage.setItem('topdeals',JSON.stringify(result.data.bestsellers));
                 
@@ -309,15 +385,19 @@ const store = createStore({
             }
         }
         else{
-          
+            
             state.categories=JSON.parse(localStorage.getItem('categories'));
             state.homebanners=JSON.parse(localStorage.getItem('homebanners'));
             state.topcategories=JSON.parse(localStorage.getItem('topcategories'));
             state.ads=JSON.parse(localStorage.getItem('ads'));
+            state.CountryFilter=JSON.parse(localStorage.getItem('CountryFilter'));
+            
             state.topdeals=JSON.parse(localStorage.getItem('topdeals'));
             state.attCategories=JSON.parse(localStorage.getItem('attCategories'));
             state.ShippingMethods=JSON.parse(localStorage.getItem('ShippingMethods'));
             state.currency=localStorage.getItem('currency');
+           
+            
         }
       
     },

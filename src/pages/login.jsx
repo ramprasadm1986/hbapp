@@ -9,15 +9,16 @@ import ReactHtmlParser, {
 } from "react-html-parser";
 
 const LoginPage = (props) => {
+    
 
-
-    const { f7route, f7router,from,next } = props;
+    const { f7route, f7router,from,next,superfrom } = props;
     const user = useStore("user");
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     var Api= new HBApi();
+    
 
     var toastCenter;
     const destroyToast = () => {
@@ -46,14 +47,14 @@ const LoginPage = (props) => {
         if (switchto=="login")
             {
                 
-                f7router.app.loginScreen.close("#my-signup-screen",true);
-                f7router.app.loginScreen.open("#my-login-screen",true);
+                f7router.app.loginScreen.close("#my-signup-screen",false);
+                f7router.app.loginScreen.open("#my-login-screen",false);
             }
         else
             {
                 
-                f7router.app.loginScreen.close("#my-login-screen",true);
-                f7router.app.loginScreen.open("#my-signup-screen",true);
+                f7router.app.loginScreen.close("#my-login-screen",false);
+                f7router.app.loginScreen.open("#my-signup-screen",false);
             }
     
     }
@@ -61,6 +62,7 @@ const LoginPage = (props) => {
     
     const cartProceedNext=()=>{
         
+        console.log(next);
         f7router.app.loginScreen.close("#my-login-screen");
         f7router.app.loginScreen.close("#my-signup-screen");
         f7router.navigate("/"+next+"/",{history:false , browserHistory:false});
@@ -69,9 +71,24 @@ const LoginPage = (props) => {
     
     const closeLoginSignup=()=>{
     
-        f7router.app.loginScreen.close("#my-login-screen");
-        f7router.app.loginScreen.close("#my-signup-screen");
+        f7router.app.loginScreen.close("#my-login-screen",false);
+        f7router.app.loginScreen.close("#my-signup-screen",false);
+       
+        
+        
     }
+    
+    const log=()=>{
+     console.log(from);
+    console.log(superfrom);
+    }
+    const openLoginSignup=()=>{
+    
+        
+        f7router.app.loginScreen.open("#my-login-screen",false);
+
+    }
+    
    
     const signUP= async ()=>{
         if (f7router.app.input.validateInputs("#sign-up-form")){
@@ -113,15 +130,15 @@ const LoginPage = (props) => {
     }
 
 return (
-    <Page name="login" backLink="Back" onPageBeforeout={closeLoginSignup}>
-        <Navbar title={from=="cart"?"Checkout":"Login"} backLink="Back" />
+    <Page name="login" onPageBeforeOut={closeLoginSignup} onPageAfterIn={openLoginSignup} onPageMounted={log} onPageReinit={log} onPageInit={log} loginScreen>
+        <Navbar title={from=="cart"?"Checkout":"Login & Signup"} backLink="Back" />
         
         
         
-        <LoginScreen id="my-login-screen" opened>
+        <LoginScreen id="my-login-screen">
         <View>
           <Page loginScreen>
-            <Navbar title={from=="cart"?"Checkout":"Login"} backLink="Back" />
+            <Navbar title={from=="cart"?"Checkout":"Login"} backLink="Back" onBackClick={closeLoginSignup} />
             <LoginScreenTitle>Login</LoginScreenTitle>
             <List form id="log-in-form">
               <ListInput
@@ -145,6 +162,7 @@ return (
                   <Block>
                     <Button fill raised onClick={() => switchForm('signup')}>Create An Account</Button>
                   </Block>
+                  
                   {from=="cart" &&(
                   <Block>
                     <Button fill raised onClick={() => cartProceedNext()} >Continue As Guest</Button>
@@ -156,10 +174,10 @@ return (
         </View>
       </LoginScreen>
       
-      <LoginScreen id="my-signup-screen" >
+      <LoginScreen id="my-signup-screen">
         <View>
           <Page loginScreen>
-            <Navbar title={from=="cart"?"Checkout":"Login"} backLink="Back" />
+            <Navbar title={from=="cart"?"Checkout":"Signup"} backLink="Back" onBackClick={closeLoginSignup} />
             <LoginScreenTitle>Signup</LoginScreenTitle>
             <List form id="sign-up-form">
               <ListInput
@@ -207,7 +225,14 @@ return (
           </Page>
         </View>
       </LoginScreen>
-
+      {!user && (
+    
+      <Block>
+        <Button fill raised onClick={() => openLoginSignup()} >Login / Signup</Button>
+      </Block>
+    
+    )}
+      
     </Page>
 );
 

@@ -1,7 +1,7 @@
 {
   "name": "hotbargains",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.7",
   "description": "Hotbargains",
   "repository": "",
   "license": "UNLICENSED",
@@ -25,6 +25,8 @@
     "Samsung >= 5"
   ],
   "dependencies": {
+    "@stripe/react-stripe-js": "^1.2.2",
+    "@stripe/stripe-js": "^1.12.0",
     "dom7": "^3.0.0",
     "framework7": "^6.0.1",
     "framework7-icons": "^3.0.1",

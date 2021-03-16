@@ -34,7 +34,7 @@ const ProductPage = (props) => {
     }
   const addProduct = (product,productHelper) => {
   
-    store.dispatch('addProduct',{id:product.id,image:productHelper.image,name:product.name,sku:product.sku,qty:1,unitPrice:productHelper.unitPrice,total:productHelper.unitPrice,shipping:0});
+    store.dispatch('addProduct',{id:product.id,image:productHelper.image,name:product.name,sku:product.sku,qty:1,unitPrice:productHelper.unitPrice,total:productHelper.unitPrice});
     showToastCenter("Item Added To Cart");
   }
   return (

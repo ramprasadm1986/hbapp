@@ -23,6 +23,25 @@ const CatalogPage = (props) => {
   const [catalogItems,setItems]=useState(products);
   const [ListIndex, setListIndex] = useState(lastindex);
   const [TotalProduct, setTotalProduct] = useState(total_product);
+  const items=catalogItems;
+  const [vlData, setVlData] = useState({
+    items: catalogItems,
+  });
+  
+  const searchAll = (query, searchItems) => {
+   
+    console.log(query);
+    console.log(searchItems);
+    
+    const found = searchItems.filter((it) => it.name.includes(query) );
+    
+    console.log(found);
+    return found;
+    
+  };
+  const renderExternal = (vl, newData) => {
+    setVlData({ ...newData });
+  };
   const cartCount = useStore('cartCount');
   const  loadMore = async () => {
         
@@ -75,9 +94,10 @@ const CatalogPage = (props) => {
         <NavTitle sliding>{categoryname}</NavTitle>
         <Subnavbar inner={false}>
             <Searchbar
-              searchContainer=".search-list"
+              searchContainer={".search-list"+categoryid}
               searchIn=".catalog_card_title"
-              disableButton={!theme.aurora}
+             
+              clearButton
             ></Searchbar>
         </Subnavbar>
         <NavRight>
@@ -91,11 +111,8 @@ const CatalogPage = (props) => {
     </Navbar>
     
      
-     <Block>
-     <List className="searchbar-not-found">
-      <ListItem title="Nothing found"></ListItem>
-    </List>
-     <List className="search-list searchbar-found">
+     <Block className="searchbar-hide-on-search">
+     <List>
      {catalogItems.map((item, index) => (
      
      <ListItem key={index} className="pl">
@@ -122,6 +139,43 @@ const CatalogPage = (props) => {
      </ListItem>
      ))}
      </List>
+     </Block>
+     <Block>
+        <List className="searchbar-not-found">
+          <ListItem title="Nothing found"></ListItem>
+        </List>
+        <List virtualList virtualListParams={{items,searchAll,renderExternal}} className={"search-list"+categoryid+" searchbar-found"} >
+        
+        <ul>
+          
+        {vlData.items.map((item, index) => (
+         
+         <ListItem key={index} className="pl">
+            <Link className="catalogitemLink" href={`/product/${item.id}/`} animate={false} ignoreCache={true}>
+         
+                <Card className="catalogitem">            
+                    <CardContent padding={false}>
+                        <Row>
+                            <Col width="50">
+                                
+                                <img className="lazy lazy-fade-in rd"  src={item.image} width="100%"  />
+                              
+                            </Col>
+                            <Col width="50">
+                                <div className="catalog_card_title">{ ReactHtmlParser(item.name) }</div>
+                            </Col>
+                        </Row>
+                    </CardContent>
+                    <CardFooter className="catalog_card_price">
+                        { ReactHtmlParser(item.price) }
+                    </CardFooter>
+                </Card>
+            </Link>
+         </ListItem>
+         
+         ))}
+         </ul>
+        </List>
      </Block>
     </Page>
   );

@@ -4,6 +4,7 @@ import AboutPage from '../pages/about.jsx';
 import FormPage from '../pages/form.jsx';
 import CatalogPage from '../pages/catalog.jsx';
 import ProductPage from '../pages/product.jsx';
+import OrdersPage from '../pages/orders.jsx';
 import CartPage from '../pages/cart.jsx';
 import SettingsPage from '../pages/settings.jsx';
 import LoginPage from '../pages/login.jsx';
@@ -47,6 +48,11 @@ var routes = [
   {
     path: '/shipping/',
     component: ShippingPage,
+    
+  },
+  {
+    path: '/orders/',
+    component: OrdersPage,
     
   },
   {

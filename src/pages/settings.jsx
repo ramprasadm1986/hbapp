@@ -17,12 +17,28 @@ import {
   Block,
   Badge,
   Icon,
+  Timeline,
+  TimelineItem,
   useStore
 } from 'framework7-react';
 
-const SettingsPage = () => {
-
+const SettingsPage = (props) => {
+ const {f7route, f7router } = props;
  const cartCount = useStore('cartCount');
+ const user = useStore('user');
+ 
+ const loginOpen = () => {
+		
+        if(!user) {
+            f7router.app.views.['settings'].router.navigate("/login/", {
+                props: {superfrom: true, from: "menu", next: "settings" },
+                history:false,
+                browserHistory:false
+            });
+        }
+		
+	};
+ 
 
 return (
   <Page name="settings">
@@ -41,8 +57,16 @@ return (
       </NavRight>
       
     </Navbar>
-
-    Hello
+    
+    {!user && (
+    
+      <Block>
+        <Button fill raised onClick={() => loginOpen()} >Login / Signup</Button>
+      </Block>
+    
+    )}
+    
+    
   </Page>
 );
 }

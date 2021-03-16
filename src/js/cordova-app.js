@@ -56,6 +56,7 @@ var cordovaApp = {
       }
       if ($('.login-screen.modal-in').length) {
         f7.loginScreen.close('.login-screen.modal-in');
+        
         e.preventDefault();
         return false;
       }
@@ -188,7 +189,7 @@ var cordovaApp = {
 
         function onPayPalMobileInit() {
             PayPalMobile.prepareToRender(
-                "PayPalEnvironmentSandbox", // or "PayPalEnvironmentProduction" 
+                "PayPalEnvironmentProduction", // or "PayPalEnvironmentProduction" 
                 new PayPalConfiguration({
                     merchantName: "Hotbargains",
                     acceptCreditCards: true,
@@ -200,6 +201,7 @@ var cordovaApp = {
                 });
         }
         PayPalMobile.init(clientIDs, onPayPalMobileInit);
+        
 		
 		
   },
